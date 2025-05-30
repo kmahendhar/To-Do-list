@@ -1,0 +1,292 @@
+ <!DOCTYPE HTML>
+<html>
+<head>
+    <title>ToDoLiSt</title>
+    <style>
+         
+        body {
+            background-color: #ddd;
+            padding: 0;
+            margin: 0;
+        }
+        .con {
+            background-color: rgb(27, 241, 205);
+            border: #ddd;
+            margin: auto;
+            border-radius: 20px;
+            width: 600px;
+            height: 400px;
+            padding: 20px;
+        }
+        h2 {
+            color: #064047;
+            text-align: center;
+            text-transform: uppercase;
+            font-size: 24px;
+            
+
+          
+        }
+        .creatlis {
+            display: flex;
+            border-radius: 16px;
+        }
+        .creatlis input {
+            padding: 16px;
+            flex: 1;
+            border-radius: 16px;
+        }
+        #btn {
+            background-color: rgba(64, 81, 79, 0.282);
+            color: #000;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 16px 20px;
+            border-radius: 16px;
+        }
+        .lisitems {
+            color: #fff;
+            font-size: 18px;
+        }
+        .lisitems li {
+            list-style: none;
+            line-height: 2;
+            position: relative;
+        }
+        .lisitems li::before {
+            content: '◻';
+            font-size: 16px;
+            padding-right: 12px;
+        }
+        .lisitems li.checked::before {
+            content: '✔';
+            font-size: 16px;
+            padding-right: 12px;
+        }
+        .lisitems li.checked {
+            text-decoration: line-through;
+        }
+        .del {
+            background-color: #333131;
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 8px;
+            position: absolute;
+            right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="con">
+        <h2>ToDoList</h2>
+        <div class="creatlis">
+            <input type="text" id="lis" placeholder="Add a new task">
+            <button id="btn">Add</button>
+        </div>
+        <ul class="lisitems" id="listContainer">
+            <li>Web designer<span class="del">✖</span></li>
+            <li class="checked">Frontend Dev<span class="del">✖</span></li>
+        </ul>
+    </div>
+    <script>
+        let allList = document.querySelector('.lisitems');
+        let createlist = document.getElementById('lis');
+        let crtbtn = document.getElementById('btn');
+
+       
+        crtbtn.addEventListener('click', function () {
+            if (createlist.value.trim() === "") {
+                alert('Enter something!');
+            } else {
+                let list = document.createElement('li');
+                list.innerText = createlist.value;
+
+             
+                let spanbtn = document.createElement('span');
+                spanbtn.className = 'del';
+                spanbtn.innerText = '✖';
+                list.appendChild(spanbtn);
+
+             
+                allList.appendChild(list);
+            }
+            createlist.value = "";
+            saveData();
+        });
+
+        
+        allList.addEventListener('click', function (e) {
+            if (e.target.tagName === "LI") {
+                e.target.classList.toggle('checked');
+                saveData();
+            } else if (e.target.tagName === "SPAN") {
+                e.target.parentElement.remove();
+                saveData();
+            }
+        });
+
+     
+        function saveData() {
+            localStorage.setItem('data', allList.innerHTML);
+        }
+
+       
+        function loadData() {
+            allList.innerHTML = localStorage.getItem('data') || '';
+        }
+
+         loadData(); 
+    </script>
+</body>
+</html> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<head>
+  <title>To-Do List</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #8e44ad, #3498db);
+      color: #333;
+    }
+
+    .todo-container {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      width: 300px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #8e44ad;
+    }
+
+    .input-task {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .input-task input {
+      flex: 1;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .input-task button {
+      padding: 10px 15px;
+      font-size: 16px;
+      border: none;
+      background: #8e44ad;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .input-task button:hover {
+      background: #732d91;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      padding: 10px;
+      margin: 5px 0;
+      background: #f4f4f4;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    li button {
+      background: #e74c3c;
+      border: none;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      
+    }
+
+    li button:hover {
+      background: #c0392b;
+    }
+  </style>
+</head>
+<body>
+  <div class="todo-container">
+    <h1>ToDoList</h1>
+    <div class="input-task">
+      <input type="text" id="taskInput" placeholder="Add a new task">
+      <button onclick="addTask()">Add</button>
+    </div>
+    <ul id="taskList">
+        
+    </ul>
+  </div>
+
+  <script>
+    function addTask() {
+      const taskInput = document.getElementById('taskInput');
+      const taskList = document.getElementById('taskList');
+      const taskText = taskInput.value.trim();
+
+      if (taskText === '') {
+        alert('Please enter a task!');
+        return;
+      }
+
+      const li = document.createElement('li');
+      li.textContent = taskText;
+
+      const deleteBtn = document.createElement('button');
+      deleteBtn.textContent = 'Delete';
+      deleteBtn.onclick = function () {
+        taskList.removeChild(li);
+      };
+
+      li.appendChild(deleteBtn);
+      taskList.appendChild(li);
+
+      taskInput.value = '';
+    }
+  </script>
+</body>
+</html> -->
